@@ -44,7 +44,8 @@
         
         Description of MICE approach?
         Detailed description of trees?
-        \vspace{5mm}
+        
+        \vspace{10mm}
         
         CART:
         \begin{itemize}
@@ -71,23 +72,44 @@
 
     \column{0.36}
     \block{3. Imputation algorithm}{
-
+    
+        Let $Y$ be $n \times p$ the data matrix arranged as $Y= (Y_p, Y_c)$, where
         \begin{itemize}
-            \item trees are not pruned to minimize bias
-            \item size of trees modulated by requiring a minimum number of observations in each leaf and by controlling the minimum heterogeneity in the values in the leaf in order to consider it for further splitting
-            
+            \item $Y_p$ consists of $p_1$ \textit{partially observed} columns, such that moving from left to right, the number of missing elements in each column is nondecreasing
+            \item  $Y_c$ remaining completely observed columns
+            \item  $Y_{obs}$ set of observed and $Y_{mis}$ set of missing elements 
         \end{itemize}
 
-        
-        In \cite{cite:5}, the main result was the description of canonically $z$-invariant isometries. Is it possible to describe almost countable subsets? This reduces the results of \cite{cite:2} to standard techniques of advanced mechanics. This reduces the results of \cite{cite:3} to results of \cite{cite:1}. Hence this could shed important light on a conjecture of Weil. Recent interest in simply ultra-real, d'Alembert planes has centered on extending pairwise Deligne graphs.
-        
-        \begin{equation}
-            \min_{\mathbf{X} \in \mathbb{R}^{M\times N}} \big\lVert \mathbf{Y} - \mathbf{A}\mathbf{X} \big\rVert_{F}^{2}.
-            \label{eq:1}
-        \end{equation}
-        
-        It is well known that every unconditionally Noetherian set is smoothly stochastic. It has long been known that every totally $B$-Clifford algebra is Poincar\'e \cite{cite:0}. So is it possible to examine partially Fermat ideals? Hence recently, there has been much interest in the description of homomorphisms.
+        \vspace{10mm}
+
+
+
+        4-steps algorithm:
+        \begin{enumerate}
+            \item Initial values for the missing values filled in as follows:
+            \begin{enumerate}
+                \item Define a matrix $Z$ equal to $Y_c$
+                \item Impute missing values in $Y_i$, where $i=1, ... p_1$, using CART on $Z$ and append the completed version of $Y_i$ to $Z$ prior to incrementing $i$             
+            \end{enumerate}       
+            \item  Replace the originally missing values of $Y_i$, where $i=1, ... p_1$, with CART on $Y_{-i}$
+            \item Repeat $l$ times step 2
+            \item Repeat steps 1–3 $m$ times and obtain $m$ imputed sets.
+        \end{enumerate}   
+
+
+        \vspace{10mm}
+
+        \begin{itemize}
+            \item sequential CART imputation algorithm
+            \item  order the variables from least amount to largest amount of missing data
+            \item minimum leaf size of 5 and the splitting criteria of a deviance greater than 0.0001
+            \item trees are not pruned to minimize bias
+            \item size of trees modulated by requiring a minimum number of observations in each leaf and by controlling the minimum heterogeneity in the values in the leaf in order to consider it for further splitting     
+            \item We take draws from the predictive distribution by sampling elements from the leaf that corresponds to the covariate values of the record of interest
+            \item  actually perform a Bayesian bootstrap within each leaf before sampling.
+        \end{itemize}
     }
+
     
     \block{4. Simulation study}{
         \begin{itemize}
@@ -124,12 +146,18 @@ imputation models using posterior predictive checks
         \begin{itemize}
             \item  MICE by CART imputation  can result in more reliable inferences compared
 with naive applications of MICE based on main-effects generalized linear models
+            \item For the quadratic and interaction terms, CART-based
+MICE results in notably lower mean-squared errors and biases
         \end{itemize}
 
     }
     
     \block{7. Next steps}{
-        Lorem ipsum dolor sit amet, probo dolorem cu vis. Cu mei audire fabulas scriptorem, cu has clita fabulas. Sea id veritus maiorum indoctum, mea cu assum cetero. Ei posse movet maluisset vim.
+        \begin{itemize}
+            \item random forests
+            \item neural networks
+            \item Bayesian additive regression trees
+        \end{itemize}
     }
     
     \block{References}{
