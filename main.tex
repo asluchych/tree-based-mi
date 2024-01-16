@@ -37,16 +37,10 @@
             \item Standard MICE approach: conditional models to be specified for \textit{all} variables with missing data
             \item Still may fail to capture interactive and nonlinear relations among variables as well as non-standard distributions
             \item Classiﬁcation and regression trees (CART) \textit{automatically} capture interactions, nonlinear relations, and complex distributions with no parametric assumptions or data transformations needed (Burgette \& Reiter 2010)
-            \item Implementation in R: \textit{mice} and \textit{miceranger} packages
+            \item Implementation in R: \textit{mice} and \textit{miceRanger} packages
         \end{itemize}
     }
-    \block{2. Tree-based methods}{
-        
-        Description of MICE approach?
-        Detailed description of trees?
-        
-        \vspace{10mm}
-        
+    \block{2. Tree-based methods}{   
         CART:
         \begin{itemize}
             \item seek to approximate the conditional distribution of a univariate outcome from multiple predictors
@@ -110,8 +104,26 @@
         \end{itemize}
     }
 
+            \block{4. Comparison mice/miceRanger packages}{
+        \begin{itemize}
+            \item both implement Stef van Buuren’s Multivariate Imputation by Chained Equations
+            \item \textit{mice} supports variety of imputation methods, \textit{miceRanger} only randomForest
+            \item \textit{mice} uses common R packages “rpart” and “randomForest” to implement tree based imputation methods (van Buuren 2023)
+            \item \textit{miceRanger} uses the “ranger”-package instead, which claims to be faster and more efficient with medium and large data sets (Wilson 2022)
+                \begin{itemize}
+                    \item[$\Rightarrow$] core functions written in C++ (faster than R, compiled vs. interpreted code) (Wright und Ziegler 2017)
+                    \item[$\Rightarrow$] supports parallel computing (Wright und Ziegler 2017; Wright 2023)
+                \end{itemize}
+        \end{itemize}
+
+    }
+
     
-    \block{4. Simulation study}{
+
+
+    \column{0.32}
+
+        \block{5. Simulation study}{
         \begin{itemize}
             \item interactions among the variables in these domains, rather than
          main effects alone, are likely to be predictors
@@ -124,13 +136,11 @@ imputation models using posterior predictive checks
         \end{itemize}
 
     }
-
-    \column{0.32}
-    \block{5. Results}{
+    \block{6. Results}{
 
     }
     
-    \block{6. Conclusion}{
+    \block{7. Conclusion}{
         \begin{itemize}
             \item  MICE by CART imputation  can result in more reliable inferences compared
 with naive applications of MICE based on main-effects generalized linear models
@@ -140,7 +150,7 @@ MICE results in notably lower mean-squared errors and biases
 
     }
     
-    \block{7. Next steps}{
+    \block{8. Next steps}{
         \begin{itemize}
             \item random forests
             \item neural networks
