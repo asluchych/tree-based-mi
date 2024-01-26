@@ -41,9 +41,8 @@
         \end{itemize}
     }
     \block{2. Tree-based methods}{   
-        CART:
         \begin{itemize}
-            \item seek to approximate the conditional distribution of a univariate outcome from multiple predictors
+            \item seek to approximate  conditional distribution of univariate outcome from multiple predictors
             \item  partition the predictor space so that subsets of units formed by the partitions have relatively homogeneous outcomes
             \item partitions are found by recursive binary splits of the predictors
             \item  series of splits can be effectively represented by a tree structure, with leaves corresponding to the subsets of units
@@ -93,16 +92,16 @@
 
         \vspace{10mm}
 
-        \begin{itemize}
-            \item sequential CART imputation algorithm
-            \item  order the variables from least amount to largest amount of missing data
-            \item minimum leaf size of 5 and the splitting criteria of a deviance greater than 0.0001
-            \item trees are not pruned to minimize bias
-            \item size of trees modulated by requiring a minimum number of observations in each leaf and by controlling the minimum heterogeneity in the values in the leaf in order to consider it for further splitting     
-            \item We take draws from the predictive distribution by sampling elements from the leaf that corresponds to the covariate values of the record of interest
-            \item  actually perform a Bayesian bootstrap within each leaf before sampling.
-        \end{itemize}
-    }
+  %      \begin{itemize}
+  %          \item sequential CART imputation algorithm
+  %          \item  order the variables from least amount to largest amount of missing data
+  %          \item minimum leaf size of 5 and the splitting criteria of a deviance greater than 0.0001
+  %          \item trees are not pruned to minimize bias
+  %          \item size of trees modulated by requiring a minimum number of observations in each leaf and by %controlling the minimum heterogeneity in the values in the leaf in order to consider it for further splitting     
+  %          \item We take draws from the predictive distribution by sampling elements from the leaf that corresponds to the covariate values of the record of interest
+  %          \item  actually perform a Bayesian bootstrap within each leaf before sampling.
+   %     \end{itemize}
+ }
 
             \block{4. Comparison mice/miceRanger packages}{
         \begin{itemize}
@@ -115,49 +114,90 @@
                     \item[$\Rightarrow$] supports parallel computing (Wright und Ziegler 2017; Wright 2023)
                 \end{itemize}
         \end{itemize}
-
     }
+            \block{5. Empirical simulation study}{
+            Objective:
+            \begin{itemize}
+            \item evaluate efficacy of tree-based imputation methods on missing data
+            \item compare \textit{mice} package methods against the extended methods in \textit{miceRanger}
+            \end{itemize} 
+            
+            Empirical data set:
+            \begin{itemize}
+            \item RAND's Health Insurance Experiment
+            \end{itemize}
+
+            Monte Carlo simulation:
+            \begin{itemize}
+                \item simulations (R): 1000 cycles to ensure robustness
+                \item multiple imputations (M): 5 imputations to estimate variability
+                \item sample size (n): 2000 cases to ensure generalizability.
+  
+            \end{itemize}
+    }
+
+    \column{0.32}
+    \block{}{
+    \begin{itemize}
+        \item iterations (niter): 10 iterations for chained equations.
+        \item random forest trees (nrtree): 10 trees in each RandomForest model for depth
+    \end{itemize}
+    Comparison Metrics: determine the most accurate and efficient imputation method that best reconstructs true values while minimizing systematic errors
+    \begin{itemize}
+        \item bias: deviation of imputed values from true values.
+        \item mean squared error: average squared difference between the imputed and true values.
+        \item coverage: proportion of times true values fall within the calculated confidence intervals.
+    \end{itemize}
+    
+    }
+   
+    \block{6. Results}{
 
     
 
+        \centering
+        \begin{tabular}{|l|l|lll|}
+             \hline   
+             Metric &  Method & Bias \hspace{3mm} & MSE \hspace{3mm} & Coverage \hspace{3mm}\\
+             \hline
+             mean(age) & BD & NA & NA & NA\\
+             mean(age) & CC & NA & NA & NA\\
+             mean(age) & CART & NA & NA & NA\\
+             mean(age) & RandomForest & NA & NA & NA\\
+             mean(age) & miceRanger  & NA & NA & NA \\
+             \hline
+             mean(educ) & BD & NA & NA & NA\\
+             mean(educ) & CC & NA & NA & NA\\
+             mean(educ) & CART & NA & NA & NA\\
+             mean(educ) & RandomForest & NA & NA & NA\\
+             mean(educ) & miceRanger  & NA & NA & NA \\
+             \hline
+             $\rho$(mdvis, hltg)  & BD & NA & NA & NA\\
+             $\rho$(mdvis, hltg) & CC & NA & NA & NA\\
+             $\rho$(mdvis, hltg) & CART & NA & NA & NA\\
+             $\rho$(mdvis, hltg) & RandomForest & NA & NA & NA\\
+             $\rho$(mdvis, hltg) & miceRanger  & NA & NA & NA \\
+             \hline
+             reg.(mhi)  & BD & NA & NA & NA\\
+             reg.(mhi) & CC & NA & NA & NA\\
+             reg.(mhi) & CART & NA & NA & NA\\
+             reg.(mhi) & RandomForest & NA & NA & NA\\
+             reg.(mhi) & miceRanger  & NA & NA & NA \\
+             \hline
+        \end{tabular}
+}
 
-    \column{0.32}
 
-        \block{5. Simulation study}{
-        \begin{itemize}
-            \item interactions among the variables in these domains, rather than
-         main effects alone, are likely to be predictors
-            \item nature of these interactions is not known a prior
-            \item imputations of missing data must
-be ﬂexible enough to capture the most important interac-
-tions in the data
-            \item check the plausibility of our
-imputation models using posterior predictive checks
-        \end{itemize}
 
-    }
-    \block{6. Results}{
+
+    
+
 
     }
     
     \block{7. Conclusion}{
-        \begin{itemize}
-            \item  MICE by CART imputation  can result in more reliable inferences compared
-with naive applications of MICE based on main-effects generalized linear models
-            \item For the quadratic and interaction terms, CART-based
-MICE results in notably lower mean-squared errors and biases
-        \end{itemize}
 
     }
-    
-    \block{8. Next steps}{
-        \begin{itemize}
-            \item random forests
-            \item neural networks
-            \item Bayesian additive regression trees
-        \end{itemize}
-    }
-    
     \block{References}{
         \vspace{-1em}
         \begin{footnotesize}
