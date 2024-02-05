@@ -11,7 +11,7 @@
 \usepackage{enumitem}
 \usepackage[backend=biber,style=chicago-authordate]{biblatex}
 \usepackage{emory-theme}
-
+\usepackage{caption}
 \usepackage{mwe} % for placeholder images
 
 \addbibresource{refs.bib}
@@ -36,37 +36,34 @@
         \begin{itemize}
             \item Standard MICE approach: conditional models to be specified for \textit{all} variables with missing data
             \item Still may fail to capture interactive and nonlinear relations among variables as well as non-standard distributions
-            \item Classiﬁcation and regression trees (CART) \textit{automatically} capture interactions, nonlinear relations, and complex distributions with no parametric assumptions or data transformations needed (Burgette \& Reiter 2010)
+            \item Tree-based methods \textit{automatically} capture interactions, nonlinear relations, and complex distributions with no parametric assumptions or data transformations needed (Burgette \& Reiter 2010)
             \item Implementation in R: \textit{mice} and \textit{miceRanger} packages
         \end{itemize}
     }
-    \block{2. Tree-based methods}{   
+    \block{2. Tree-based methods}{
+        Classification and regression trees (CART):
         \begin{itemize}
             \item seek to approximate  conditional distribution of univariate outcome from multiple predictors
-            \item  partition the predictor space so that subsets of units formed by the partitions have relatively homogeneous outcomes
-            \item partitions are found by recursive binary splits of the predictors
-            \item  series of splits can be effectively represented by a tree structure, with leaves corresponding to the subsets of units
-            \item values in each leaf represent the conditional distribution of the outcome for units in the data with predictors that satisfy the partitioning criteria that deﬁne the leaf
+            \item segment predictor space into non-overlapping regions with relatively homogeneous outcomes
+            \item segments found by recursive binary splits of  predictors
+            \item prediction for observations that fall into the same region is mean (or mode) of response values for training observations in region
+            \item may be very non-robust and have lower predictive accuracy 
         \end{itemize}
-
-        \vspace{1em}
-        \begin{tikzfigure}[Example of a tree structure. Source: Burgette \& Reiter (2010)]
+        \begin{tikzfigure}[Example of tree structure. Source: Hastie et al. (2009)]
             \includegraphics[width=0.6\linewidth]{tree.png}
         \end{tikzfigure}
-        \vspace{1em}
-
-        Disadvantages relative to parametric models:
+        Random forest:
         \begin{itemize}
-            \item decreased efﬁciency when the parametric models are adequate
-            \item discontinuities at partition boundaries
-            \item categorical predictors with many levels can cause computational difﬁculties
+            \item \textit{ensemble} method that addresses non-robustness and low predictive accuracy
+            \item average predictions from $B$ non-pruned trees constructed using $B$ bootstrapped training sets  
+            \item \textit{decorrelates} trees by performing each split on \textit{randomly} chosen subset of predictors
         \end{itemize} 
     }
 
     \column{0.36}
     \block{3. Imputation algorithm}{
     
-        Let $Y$ be $n \times p$ the data matrix arranged as $Y= (Y_p, Y_c)$, where
+        Following Burgette \& Reiter (2009), let $Y$ be $n \times p$ the data matrix arranged as $Y= (Y_p, Y_c)$, where
         \begin{itemize}
             \item $Y_p$ consists of $p_1$ \textit{partially observed} columns, such that moving from left to right, the number of missing elements in each column is nondecreasing
             \item  $Y_c$ remaining completely observed columns
@@ -82,9 +79,9 @@
             \item Initial values for the missing values filled in as follows:
             \begin{enumerate}
                 \item Define a matrix $Z$ equal to $Y_c$
-                \item Impute missing values in $Y_i$, where $i=1, ... p_1$, using CART on $Z$ and append the completed version of $Y_i$ to $Z$ prior to incrementing $i$             
+                \item Impute missing values in $Y_i$, where $i=1, ... p_1$, using tree-based method on $Z$ and append the completed version of $Y_i$ to $Z$ prior to incrementing $i$             
             \end{enumerate}       
-            \item  Replace the originally missing values of $Y_i$, where $i=1, ... p_1$, with CART on $Y_{-i}$
+            \item  Replace the originally missing values of $Y_i$, where $i=1, ... p_1$, with tree-based methods on $Y_{-i}$
             \item Repeat $l$ times step 2
             \item Repeat steps 1–3 $m$ times and obtain $m$ imputed sets.
         \end{enumerate}   
@@ -185,6 +182,7 @@
              reg.(mhi) & miceRanger  & NA & NA & NA \\
              \hline
         \end{tabular}
+        \captionof{table}{Simulation results}
 }
 
 
