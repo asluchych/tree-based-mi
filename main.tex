@@ -33,61 +33,78 @@
 \begin{columns}
     \column{0.32}
     \block{1. Motivation}{
+        \vspace{-1em}
         \begin{itemize}
-            \item Standard MICE approach: conditional models to be specified for \textit{all} variables with missing data
+            \item Parametric MICE methods: conditional models to be specified for \textit{all} variables with missing data
+            \vspace{-0.25em}
             \item Still may fail to capture interactive and nonlinear relations among variables as well as non-standard distributions
+            \vspace{-0.25em}
             \item Tree-based methods \textit{automatically} capture interactions, nonlinear relations, and complex distributions with no parametric assumptions or data transformations needed (Burgette \& Reiter 2010)
+            \vspace{-0.25em}
             \item Implementation in R: \textit{mice} and \textit{miceRanger} packages
         \end{itemize}
     }
     \block{2. Tree-based methods}{
+        \vspace{-1em}
         Classification and regression trees (CART):
+        \vspace{-0.5em}
         \begin{itemize}
             \item seek to approximate  conditional distribution of univariate outcome from multiple predictors
+            \vspace{-0.25em}
             \item segment predictor space into non-overlapping regions with relatively homogeneous outcomes
+            \vspace{-0.25em}
             \item segments found by recursive binary splits of  predictors
+            \vspace{-0.25em}
             \item prediction for observations that fall into the same region is mean (or mode) of response values for training observations in region
+            \vspace{-0.25em}
             \item may be very non-robust and have lower predictive accuracy 
         \end{itemize}
+        
+        \vspace{-2em}
         \begin{tikzfigure}[Example of tree structure. Source: Hastie et al. (2009)]
-            \includegraphics[width=0.6\linewidth]{tree.png}
+            \includegraphics[scale=2.5]{tree.png}
         \end{tikzfigure}
+        \vspace{-1em}
+        
         Random forest:
+        \vspace{-0.5em}
         \begin{itemize}
             \item \textit{ensemble} method that addresses non-robustness and low predictive accuracy
-            \item average predictions from $B$ non-pruned trees constructed using $B$ bootstrapped training sets  
+            \vspace{-0.25em}
+            \item average predictions from $B$ non-pruned trees constructed using $B$ bootstrapped training sets 
+            \vspace{-0.25em}
             \item \textit{decorrelates} trees by performing each split on \textit{randomly} chosen subset of predictors
         \end{itemize} 
     }
 
-    \column{0.36}
     \block{3. Imputation algorithm}{
-    
-        Following Burgette \& Reiter (2009), let $Y$ be $n \times p$ the data matrix arranged as $Y= (Y_p, Y_c)$, where
-        \begin{itemize}
-            \item $Y_p$ consists of $p_1$ \textit{partially observed} columns, such that moving from left to right, the number of missing elements in each column is nondecreasing
-            \item  $Y_c$ remaining completely observed columns
-            \item  $Y_{obs}$ set of observed and $Y_{mis}$ set of missing elements 
-        \end{itemize}
-
-        \vspace{10mm}
-
-
-
-        4-steps algorithm:
+    \vspace{-1em}
+    4-steps algorithm:
+    \vspace{-0.5em}
+    \begin{enumerate}
+        \item Initial values for the missing values filled in as follows:
+        \vspace{-0.25em}
         \begin{enumerate}
-            \item Initial values for the missing values filled in as follows:
-            \begin{enumerate}
-                \item Define a matrix $Z$ equal to $Y_c$
-                \item Impute missing values in $Y_i$, where $i=1, ... p_1$, using tree-based method on $Z$ and append the completed version of $Y_i$ to $Z$ prior to incrementing $i$             
-            \end{enumerate}       
+            \item Define a matrix $Z$ equal to $Y_c$
+            \vspace{-0.25em}
+            \item Impute missing values in $Y_i$, where $i=1, ... p_1$, using tree-based method on $Z$ and append the completed version of $Y_i$ to $Z$ prior to incrementing $i$             
+        \end{enumerate}
+    \end{enumerate}  
+    \vspace{-1em}
+}
+
+    \column{0.36}
+    \block{}{
+        \vspace{-1em}
+        \begin{enumerate}
+            \setcounter{enumi}{1}
             \item  Replace the originally missing values of $Y_i$, where $i=1, ... p_1$, with tree-based methods on $Y_{-i}$
+            \vspace{-0.25em}
             \item Repeat $l$ times step 2
+            \vspace{-0.25em}
             \item Repeat steps 1–3 $m$ times and obtain $m$ imputed sets.
-        \end{enumerate}   
-
-
-        \vspace{10mm}
+        \end{enumerate} 
+        \vspace{-1em}
 
   %      \begin{itemize}
   %          \item sequential CART imputation algorithm
@@ -100,57 +117,91 @@
    %     \end{itemize}
  }
 
-            \block{4. Comparison mice/miceRanger packages}{
+        \block{4. Comparison mice/miceRanger packages}{
+        \vspace{-2em}
         \begin{itemize}
-            \item both implement Stef van Buuren’s Multivariate Imputation by Chained Equations
-            \item \textit{mice} supports variety of imputation methods, \textit{miceRanger} only randomForest
-            \item \textit{mice} uses common R packages “rpart” and “randomForest” to implement tree based imputation methods (van Buuren 2023)
-            \item \textit{miceRanger} uses the “ranger”-package instead, which claims to be faster and more efficient with medium and large data sets (Wilson 2022)
+            \item both implement van Buuren’s multivariate imputation by chained equations
+            \vspace{-0.25em}
+            \item \textit{mice} supports variety of imputation methods, \textit{miceRanger} only random forest
+            \vspace{-0.25em}
+            \item \textit{mice} uses common R packages \textit{rpart} and \textit{randomForest} to implement tree based imputation methods (van Buuren 2023)
+            \vspace{-0.25em}
+            \item \textit{miceRanger} uses the \textit{ranger} package instead, which claims to be faster and more efficient with medium and large data sets (Wilson 2022)
+                \vspace{-0.25em}
                 \begin{itemize}
-                    \item[$\Rightarrow$] core functions written in C++ (faster than R, compiled vs. interpreted code) (Wright und Ziegler 2017)
-                    \item[$\Rightarrow$] supports parallel computing (Wright und Ziegler 2017; Wright 2023)
+                    \item[$\Rightarrow$] core functions written in C++ (faster than R, compiled vs. interpreted code) (Wright \& Ziegler 2017)
+                    \vspace{-0.25em}
+                     \item[$\Rightarrow$] lacks pooling function
                 \end{itemize}
         \end{itemize}
+        \vspace{-1em}
     }
-            \block{5. Empirical simulation study}{
-            Objective:
-            \begin{itemize}
-            \item evaluate efficacy of tree-based imputation methods on missing data
-            \item compare \textit{mice} package methods against the extended methods in \textit{miceRanger}
-            \end{itemize} 
-            
+            \block{5. Empirical simulation study}{ 
+            \vspace{-1em}
             Empirical data set:
+            \vspace{-0.25em}
             \begin{itemize}
-            \item RAND's Health Insurance Experiment
+                \item RAND's Health Insurance Experiment:  $n = 20185$, $k = 46$
             \end{itemize}
-
-            Monte Carlo simulation:
+            \vspace{-0.25em}
+            Missing data mechanisms:
+            \vspace{-0.25em}
             \begin{itemize}
-                \item simulations (R): 1000 cycles to ensure robustness
-                \item multiple imputations (M): 5 imputations to estimate variability
-                \item sample size (n): 2000 cases to ensure generalizability.
-  
+                \item p=25\% and 50\%
             \end{itemize}
+            \vspace{-1em}
+            \begin{itemize}
+                \item MAR with $\rho=0,\tau=0$: $P(mdvis\_miss \mid xage<25) = p$, \\
+                    $P(mdvis\_miss \mid mhi>74) = p$ 
+                \vspace{-0.25em}
+                \item MCAR: $P(income\_miss) = p$, $P(educdec\_miss) = p$
+            \end{itemize}
+            \vspace{-0.5em}
+            Monte Carlo simulation: R = 1000, M = 5, n = 2000, niter = 10, nrtree = 10 
     }
 
-    \column{0.32}
-    \block{}{
-    \begin{itemize}
-        \item iterations (niter): 10 iterations for chained equations.
-        \item random forest trees (nrtree): 10 trees in each RandomForest model for depth
-    \end{itemize}
-    Comparison Metrics: determine the most accurate and efficient imputation method that best reconstructs true values while minimizing systematic errors
-    \begin{itemize}
-        \item bias: deviation of imputed values from true values.
-        \item mean squared error: average squared difference between the imputed and true values.
-        \item coverage: proportion of times true values fall within the calculated confidence intervals.
-    \end{itemize}
-    
+        \block{6. Results}{
+         \vspace{-2em}
+        \begin{tikzfigure}[Imputation Time per Subset per Method]
+            \includegraphics[width=1\linewidth]{plot_comp_time.png}
+        \end{tikzfigure}  
+        \vspace{-1em}
     }
-   
-    \block{6. Results}{
+
+
+
+    \column{0.32}   
+
+        \block{}{
+         \vspace{-2em}
+        \begin{tikzfigure}[Boxplot of Coverage Rates by Model]
+            \includegraphics[width=1\linewidth]{plot_coverage.png}
+        \end{tikzfigure} 
+        \vspace{-1em}
+    }
+
 
     
+    \block{7. Conclusion}{
+    \vspace{-2em}
+    \begin{itemize}
+        \item \textit{miceRanger} outperforms other random forest imputation methods, working on average approximately ...\% faster per simulation cycle
+        \vspace{-0.25em}
+        \item With changing the variability of data types, \textit{miceRanger} works on average ...\% faster per simulation cycle.
+        \vspace{-0.25em}
+        \item With changing size of data sets, \textit{miceRanger} works on average ...\% fast per simulation cycle
+    \end{itemize}
+    \vspace{-1em}
+    }
+    
+    \block{References}{
+        \vspace{-1em}
+        \begin{footnotesize}
+        \printbibliography[heading=none]
+        \end{footnotesize}
+    }
+\end{columns}
+\end{document}
 
         \centering
         \begin{tabular}{|l|l|lll|}
@@ -187,20 +238,10 @@
 
 
 
-
     
-
-
-    }
-    
-    \block{7. Conclusion}{
-
-    }
-    \block{References}{
-        \vspace{-1em}
-        \begin{footnotesize}
-        \printbibliography[heading=none]
-        \end{footnotesize}
-    }
-\end{columns}
-\end{document}
+        Following Burgette \& Reiter (2009), let $Y$ be $n \times p$ the data matrix arranged as $Y= (Y_p, Y_c)$, where
+        \begin{itemize}
+            \item $Y_p$ consists of $p_1$ \textit{partially observed} columns, such that moving from left to right, the number of missing elements in each column is nondecreasing
+            \item  $Y_c$ remaining completely observed columns
+            \item  $Y_{obs}$ set of observed and $Y_{mis}$ set of missing elements 
+        \end{itemize}
