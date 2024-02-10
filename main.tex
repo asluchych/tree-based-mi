@@ -9,7 +9,7 @@
 \usepackage{graphicx}
 \usepackage{adjustbox}
 \usepackage{enumitem}
-\usepackage[backend=biber,style=chicago-authordate]{biblatex}
+\usepackage[backend=biber,style=apa6]{biblatex}
 \usepackage{emory-theme}
 \usepackage{caption}
 \usepackage{mwe} % for placeholder images
@@ -35,11 +35,11 @@
     \block{1. Motivation}{
         \vspace{-1em}
         \begin{itemize}
-            \item Parametric MICE methods: conditional models to be specified for \textit{all} variables with missing data
+            \item Parametric MICE methods: conditional models to be specified for \textit{all} variables with missing data (van Buuren \& Groothuis-Oudshoorn, 2011)
             \vspace{-0.25em}
             \item Still may fail to capture interactive and nonlinear relations among variables as well as non-standard distributions
             \vspace{-0.25em}
-            \item Tree-based methods \textit{automatically} capture interactions, nonlinear relations, and complex distributions with no parametric assumptions or data transformations needed (Burgette \& Reiter 2010)
+            \item Tree-based methods \textit{automatically} capture interactions, nonlinear relations, and complex distributions with no parametric assumptions or data transformations needed (Burgette \& Reiter, 2010)
             \vspace{-0.25em}
             \item Implementation in R: \textit{mice} and \textit{miceRanger} packages
         \end{itemize}
@@ -57,12 +57,12 @@
             \vspace{-0.25em}
             \item prediction for observations that fall into the same region is mean (or mode) of response values for training observations in region
             \vspace{-0.25em}
-            \item may be very non-robust and have lower predictive accuracy 
+            \item may be very non-robust and have relatively low predictive accuracy 
         \end{itemize}
         
         \vspace{-2em}
-        \begin{tikzfigure}[Example of tree structure. Source: Hastie et al. (2009)]
-            \includegraphics[scale=2.5]{tree.png}
+        \begin{tikzfigure}[Example of tree structure. Source: Hastie, Tibshirani, \& Friedman (2009)]
+            \includegraphics[scale=2.3]{tree.png}
         \end{tikzfigure}
         \vspace{-1em}
         
@@ -74,6 +74,8 @@
             \item average predictions from $B$ non-pruned trees constructed using $B$ bootstrapped training sets 
             \vspace{-0.25em}
             \item \textit{decorrelates} trees by performing each split on \textit{randomly} chosen subset of predictors
+            \vspace{-0.25em}
+            \item accurate model to impute missing values (Stekhoven \& Bühlmann, 2011)
         \end{itemize} 
     }
 
@@ -124,18 +126,19 @@
             \vspace{-0.25em}
             \item \textit{mice} supports variety of imputation methods, \textit{miceRanger} only random forest
             \vspace{-0.25em}
-            \item \textit{mice} uses common R packages \textit{rpart} and \textit{randomForest} to implement tree based imputation methods (van Buuren 2023)
+            \item \textit{mice} uses common R packages \textit{rpart} and \textit{randomForest} to implement tree-based imputation methods (van Buuren, 2023)
             \vspace{-0.25em}
-            \item \textit{miceRanger} uses the \textit{ranger} package instead, which claims to be faster and more efficient with medium and large data sets (Wilson 2022)
+            \item \textit{miceRanger} uses the \textit{ranger} package instead, which claims to be faster and more efficient with medium and large data sets (Wilson, 2022)
                 \vspace{-0.25em}
                 \begin{itemize}
-                    \item[$\Rightarrow$] core functions written in C++ (faster than R, compiled vs. interpreted code) (Wright \& Ziegler 2017)
+                    \item[$\Rightarrow$] core functions written in C++ (faster than R, compiled vs. interpreted code) (Wright \& Ziegler, 2017)
                     \vspace{-0.25em}
                      \item[$\Rightarrow$] lacks pooling function
                 \end{itemize}
         \end{itemize}
         \vspace{-1em}
     }
+    
             \block{5. Empirical simulation study}{ 
             \vspace{-1em}
             Empirical data set:
@@ -160,9 +163,10 @@
             Monte Carlo simulation: R = 1000, M = 5, n = 2000, niter = 10, nrtree = 10 
     }
 
+
         \block{6. Results}{
          \vspace{-2em}
-        \begin{tikzfigure}[Imputation Time per Subset per Method]
+        \begin{tikzfigure}[Imputation time per subset per method]
             \includegraphics[width=1\linewidth]{plot_comp_time.png}
         \end{tikzfigure}  
         \vspace{-1em}
@@ -174,7 +178,7 @@
 
         \block{}{
          \vspace{-2em}
-        \begin{tikzfigure}[Boxplot of Coverage Rates by Model]
+        \begin{tikzfigure}[Coverage rate by model]
             \includegraphics[width=1\linewidth]{plot_coverage.png}
         \end{tikzfigure} 
         \vspace{-1em}
@@ -195,7 +199,7 @@
     }
     
     \block{References}{
-        \vspace{-1em}
+        \vspace{-2em}
         \begin{footnotesize}
         \printbibliography[heading=none]
         \end{footnotesize}
