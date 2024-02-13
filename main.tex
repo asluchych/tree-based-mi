@@ -37,11 +37,11 @@
         \vspace{-1em}
         \begin{itemize}
             \item Parametric MICE methods: conditional models to be specified for \textit{all} variables with missing data (van Buuren \& Groothuis-Oudshoorn, 2011)
-            \vspace{-0.25em}
+            \vspace{-0.5em}
             \item Still may fail to capture interactive and nonlinear relations among variables as well as non-standard distributions
-            \vspace{-0.25em}
+            \vspace{-0.5em}
             \item Tree-based methods \textit{automatically} capture interactions, nonlinear relations, and complex distributions with no parametric assumptions or data transformations needed (Burgette \& Reiter, 2010)
-            \vspace{-0.25em}
+            \vspace{-0.5em}
             \item Implementation in R: \textit{mice}, \textit{miceRanger}, and \textit{missRanger} packages
         \end{itemize}
     }
@@ -51,19 +51,19 @@
         \vspace{-0.5em}
         \begin{itemize}
             \item seek to approximate  conditional distribution of univariate outcome from multiple predictors
-            \vspace{-0.25em}
+            \vspace{-0.5em}
             \item segment predictor space into non-overlapping regions with relatively homogeneous outcomes
-            \vspace{-0.25em}
+            \vspace{-0.5em}
             \item segments found by recursive binary splits of  predictors
-            \vspace{-0.25em}
+            \vspace{-0.5em}
             \item prediction for observations that fall into the same region is mean (or mode) of response values for training observations in region
-            \vspace{-0.25em}
+            \vspace{-0.5em}
             \item may be very non-robust and have relatively low predictive accuracy 
         \end{itemize}
         
         \vspace{-2em}
         \begin{tikzfigure}[Example of tree structure. Source: Hastie, Tibshirani, \& Friedman (2009)]
-            \includegraphics[scale=2.3]{tree.png}
+                \includegraphics[scale=1.9]{tree.png}
         \end{tikzfigure}
         \vspace{-1em}
         
@@ -71,44 +71,18 @@
         \vspace{-0.5em}
         \begin{itemize}
             \item \textit{ensemble} method that addresses non-robustness and low predictive accuracy
-            \vspace{-0.25em}
+            \vspace{-0.5em}
             \item average predictions from $B$ non-pruned trees constructed using $B$ bootstrapped training sets 
-            \vspace{-0.25em}
+            \vspace{-0.5em}
             \item \textit{decorrelates} trees by performing each split on \textit{randomly} chosen subset of predictors
-            \vspace{-0.25em}
+            \vspace{-0.5em}
             \item accurate model to impute missing values (Stekhoven \& Bühlmann, 2011)
+            \vspace{-1em}
         \end{itemize} 
     }
 
     \block{3. Imputation algorithm}{
     \vspace{-1em}
-    4-steps algorithm:
-    \vspace{-0.5em}
-    \begin{enumerate}
-        \item Initial values for the missing values filled in as follows:
-        \vspace{-0.25em}
-        \begin{enumerate}
-            \item Define a matrix $Z$ equal to $Y_c$ (ordered matrix according to missingness)
-            \vspace{-0.25em}
-            \item Impute missing values in $Y_i$, $i=1, ... p_1$, using tree-based method on $Z$ and append the completed version of $Y_i$ to $Z$ prior to incrementing $i$             
-        \end{enumerate}
-    \end{enumerate}  
-    \vspace{-1em}
-}
-
-    \column{0.36}
-    \block{}{
-        \vspace{-1em}
-        \begin{enumerate}
-            \setcounter{enumi}{1}
-            \item  Replace the originally missing values of $Y_i$, $i=1, ... p_1$, with tree-based methods on $Y_{-i}$
-            \vspace{-0.25em}
-            \item Repeat step 2 $l$  times ($l$  iterations)
-            \vspace{-0.25em}
-            \item Repeat steps 1–3 $m$ times and obtain $m$ imputed sets
-            \item Pool $m$ datasets to one completed according to Rubin’s rules  
-        \end{enumerate} 
-        \vspace{-1em}
 
   %      \begin{itemize}
   %          \item sequential CART imputation algorithm
@@ -118,24 +92,48 @@
   %          \item size of trees modulated by requiring a minimum number of observations in each leaf and by %controlling the minimum heterogeneity in the values in the leaf in order to consider it for further splitting     
   %          \item We take draws from the predictive distribution by sampling elements from the leaf that corresponds to the covariate values of the record of interest
   %          \item  actually perform a Bayesian bootstrap within each leaf before sampling.
-   %     \end{itemize}
- }
+  %     \end{itemize}
 
+    
+    4-steps algorithm:
+    \vspace{-0.5em}
+    \begin{enumerate}
+        \item Initial values for the missing values filled in as follows:
+        \vspace{-0.5em}
+        \begin{enumerate}
+            \item Define a matrix $Z$ equal to $Y_c$ (ordered matrix according to missingness)
+            \vspace{-0.25em}
+            \item Impute missing values in $Y_i$, $i=1, ... p_1$, using tree-based method on $Z$ and append the completed version of $Y_i$ to $Z$ prior to incrementing $i$             
+        \end{enumerate}
+    \vspace{-1em}
+    \item  Replace the originally missing values of $Y_i$, $i=1, ... p_1$, with tree-based methods on $Y_{-i}$
+    \vspace{-0.5em}
+    \item Repeat step 2 $l$  times ($l$  iterations)
+    \vspace{-0.5em}          
+    \item Repeat steps 1–3 $m$ times and obtain $m$ imputed sets
+    \vspace{-0.5em}
+    \item Pool $m$ datasets to one completed according to Rubin’s rules  
+    \end{enumerate}  
+    \vspace{-1em}
+}
+
+    \column{0.36}
         \block{4. Comparison mice and miceRanger/missRanger packages}{
         \vspace{-2em}
         \begin{itemize}
             \item \textit{mice} and \textit{miceRanger} implement van Buuren’s multivariate imputation by chained equations, \textit{missRanger} by default single imputations
-            \vspace{-0.25em}
+            \vspace{-0.5em}
             \item \textit{mice} supports variety of imputation methods, \textit{miceRanger} \& \textit{missRanger} only random forest
-            \vspace{-0.25em}
+            \vspace{-0.5em}
             \item \textit{mice} uses common R packages \textit{rpart} and \textit{randomForest} to implement tree-based imputation methods (van Buuren, 2023)
-            \vspace{-0.25em}
+            \vspace{-0.5em}
             \item \textit{miceRanger} \& \textit{missRanger} use the \textit{ranger} package instead, which claims to be faster and more efficient with larger data sets and complex settings (Wilson, 2022)
-                \vspace{-0.25em}
+                \vspace{-0.5em}
                 \begin{itemize}
                     \item[$\Rightarrow$] core functions written in C++ (faster than R, compiled vs. interpreted code) (Wright \& Ziegler, 2017)
-                    \vspace{-0.25em}
+                    \vspace{-0.5em}
                      \item[$\Rightarrow$] based on \textit{mice}/\textit{missForest}
+                     \vspace{-0.5em}
                      \item[$\Rightarrow$] both lack analytical functions
                 \end{itemize}
         \end{itemize}
@@ -145,21 +143,21 @@
             \block{5. Empirical simulation study}{ 
             \vspace{-1em}
             Empirical data set:
-            \vspace{-0.25em}
+            \vspace{-0.5em}
             \begin{itemize}
                 \item RAND's Health Insurance Experiment:  $n = 20185$, $k = 46$
             \end{itemize}
-            \vspace{-0.25em}
+            \vspace{-0.5em}
             Missing data mechanisms:
-            \vspace{-0.25em}
+            \vspace{-0.5em}
             \begin{itemize}
                 \item p=25\% and 50\%
             \end{itemize}
-            \vspace{-1em}
+            \vspace{-1.5em}
             \begin{itemize}
                 \item MAR with $\rho=0,\tau=0$: $P(mdvis\_miss \mid xage<25) = p$, \\
                     $P(mdvis\_miss \mid mhi>74) = p$ 
-                \vspace{-0.25em}
+                \vspace{-0.5em}
                 \item MCAR: $P(income\_miss) = p$, $P(educdec\_miss) = p$
             \end{itemize}
             \vspace{-0.5em}
@@ -168,25 +166,10 @@
 
 
         \block{6. Results}{
-         \vspace{-2em}
-        \begin{tikzfigure}[Imputation time per subset per method]
-            \includegraphics[width=1\linewidth]{plot_comp_time.png}
-        \end{tikzfigure}  
+        
         \vspace{-1em}
-    }
-
-
-
-    \column{0.32}   
-
-        \block{}{
-         \vspace{-2em}
-        \begin{tikzfigure}[Coverage rate by model]
-            \includegraphics[width=1\linewidth]{plot_coverage.png}
-        \end{tikzfigure} 
-
-
-                \centering
+        
+        \centering
         \begin{tabular}{|l|l|lll|}
              \hline   
              Metric &  Method & Bias \hspace{10mm} & MSE \hspace{5mm} & Coverage\\
@@ -215,20 +198,38 @@
     }
 
 
-    
+
+    \column{0.32}   
+
+        \block{}{
+
+        \vspace{-2.5em}
+        \begin{tikzfigure}[Imputation time per subset per method]
+            \includegraphics[width=1\linewidth]{plot_comp_time.png}
+        \end{tikzfigure}
+        
+        \vspace{-2.5em}
+
+        \begin{tikzfigure}[Coverage rate by model]
+            \includegraphics[width=1\linewidth]{plot_coverage.png}
+        \end{tikzfigure} 
+
+        \vspace{-1em}
+
+    }
+  
     \block{7. Conclusion}{
     \vspace{-2em}
     \begin{itemize}
         \item Speed: Ranger methods (\textit{miceRanger} and \textit{missRanger}) are significantly faster: about 11 times quicker than CART and RandomForest.
-        \vspace{-0.25em}
+        \vspace{-0.5em}
         \item Accuracy \& efficiency: CART and RandomForest demonstrate superior accuracy and efficiency in imputing missing data.
-        \vspace{-0.25em}
+        \vspace{-0.5em}
         \item Robustness: CART and RandomForest exhibit robust performance against various levels of missing data.
-        \vspace{-0.25em}
+        \vspace{-0.5em}
         \item User-friendliness: CART and RandomForest offer pooling functions that streamline the analysis process after multiple imputation. 
-        \vspace{-0.25em}
         \textit{miceRanger} and \textit{missRanger} lack this feature, requiring manual calculation for pooled estimates.
-        \vspace{-0.25em}
+        \vspace{-0.5em}
         \item Practical recommendation:For applications where time and computational resources are of the essence, \textit{Ranger} methods are recommended. For research, CART and RandomForest methods are preferred for their robustness and built-in analysis features.
     \end{itemize}
     \vspace{-1em}
