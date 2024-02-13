@@ -9,7 +9,7 @@
 \usepackage{graphicx}
 \usepackage{adjustbox}
 \usepackage{enumitem}
-\usepackage[backend=biber,style=apa6]{biblatex}
+\usepackage[backend=biber,style=apa]{biblatex}
 \usepackage{emory-theme}
 \usepackage{caption}
 \usepackage{mwe} % for placeholder images
@@ -33,6 +33,7 @@
 \centering
 \begin{columns}
     \column{0.32}
+    
     \block{1. Motivation}{
         \vspace{-1em}
         \begin{itemize}
@@ -45,6 +46,7 @@
             \item Implementation in R: \textit{mice}, \textit{miceRanger}, and \textit{missRanger} packages
         \end{itemize}
     }
+    
     \block{2. Tree-based methods}{
         \vspace{-1em}
         Classification and regression trees (CART):
@@ -64,10 +66,10 @@
         \vspace{-1.5em}
 
         \begin{center}
-        \captionof{figure}{Example of tree structure. Source: Hastie, Tibshirani, \& Friedman (2009)}
-        \begin{tikzfigure}[]
-            \includegraphics[scale=1.9]{tree.png}
-        \end{tikzfigure}
+            \captionof{figure}{Example of tree structure. Source: Hastie, Tibshirani, \& Friedman (2009)}
+            \begin{tikzfigure}[]
+                \includegraphics[scale=1.9]{tree.png}
+             \end{tikzfigure}
         \end{center}
 
         \vspace{-3em}
@@ -119,6 +121,7 @@
     \vspace{-0.5em}
     \item Pool $m$ datasets to one completed according to Rubin’s rules  
     \end{enumerate}  
+    
     \vspace{-1em}
 }
 
@@ -131,43 +134,48 @@
             \item \textit{mice} supports variety of imputation methods, \textit{miceRanger} \& \textit{missRanger} only random forest
             \vspace{-0.5em}
             \item All by default use \textit{ranger} package for random forests (van Buuren, 2023; Mayer, 2023; Wilson, 2022), which claims to be faster and more efficient with larger data sets and complex settings than common R packages (Wilson, 2022)
+            \vspace{-0.5em}
+            \begin{itemize}
+                \item[$\Rightarrow$] core functions written in C++ (faster than R, compiled vs. interpreted code) (Wright \& Ziegler, 2017)
                 \vspace{-0.5em}
-                \begin{itemize}
-                    \item[$\Rightarrow$] core functions written in C++ (faster than R, compiled vs. interpreted code) (Wright \& Ziegler, 2017)
-                    \vspace{-0.5em}
-                \end{itemize}
+            \end{itemize}
             \item main differences in default values and variety of analytical functions
         \end{itemize}
+        
         \vspace{-1em}
     }
     
-            \block{5. Empirical simulation study}{ 
-            \vspace{-1em}
-            Empirical data set:
+        \block{5. Empirical simulation study}{ 
+        \vspace{-1em}
+        Empirical data set:
+        \vspace{-0.5em}
+        \begin{itemize}
+            \item RAND's Health Insurance Experiment:  $n = 20185$, $k = 46$
+        \end{itemize}
+        
+        \vspace{-0.5em}
+        
+        Missing data mechanisms:
+        \vspace{-0.5em}
+        \begin{itemize}
+            \item p=25\% and 50\%
+        \end{itemize}
+        \vspace{-1.5em}
+        \begin{itemize}
+            \item MAR with $\rho=0,\tau=0$: $P(mdvis\_miss \mid xage<25) = p$, \\
+            $P(mdvis\_miss \mid mhi>74) = p$ 
             \vspace{-0.5em}
-            \begin{itemize}
-                \item RAND's Health Insurance Experiment:  $n = 20185$, $k = 46$
-            \end{itemize}
-            \vspace{-0.5em}
-            Missing data mechanisms:
-            \vspace{-0.5em}
-            \begin{itemize}
-                \item p=25\% and 50\%
-            \end{itemize}
-            \vspace{-1.5em}
-            \begin{itemize}
-                \item MAR with $\rho=0,\tau=0$: $P(mdvis\_miss \mid xage<25) = p$, \\
-                    $P(mdvis\_miss \mid mhi>74) = p$ 
-                \vspace{-0.5em}
-                \item MCAR: $P(income\_miss) = p$, $P(educdec\_miss) = p$
-            \end{itemize}
-            \vspace{-0.5em}
-            Monte Carlo simulation: $R$ = 100, $M$ = 5, $n$ = 1000, $niter$ = 10, $nrtree$ = 10
-            \vspace{-0.5em}
-            \begin{itemize}
-                \item six subsets: three focus on data types, three on dataset size
-            \end{itemize}
-            \vspace{-1em}
+            \item MCAR: $P(income\_miss) = p$, $P(educdec\_miss) = p$
+        \end{itemize}
+        
+        \vspace{-0.5em}
+        
+        Monte Carlo simulation: $R$ = 100, $M$ = 5, $n$ = 1000, $niter$ = 10, $nrtree$ = 10
+        \vspace{-0.5em}
+        \begin{itemize}
+            \item six subsets: three focus on data types, three on dataset size
+        \end{itemize}
+        \vspace{-1em}
     }
 
 
@@ -176,9 +184,9 @@
         \vspace{-1em}
 
         \begin{center}
-        \captionof{table}{Simulation results}
-        \vspace{-0.5em}
-        \begin{tabular}{|l|l|lll|}
+            \captionof{table}{Simulation results}
+            \vspace{-0.5em}
+            \begin{tabular}{|l|l|lll|}
              \hline   
              Metric &  Method & Bias \hspace{10mm} & MSE \hspace{5mm} & Coverage\\
              \hline
@@ -204,29 +212,27 @@
         \end{center}
     }
 
-
-
     \column{0.32}   
 
         \block{}{
         \vspace{-2.5em}
         
         \begin{center}
-        \captionof{figure}{Imputation time per subset per method}
-        \vspace{-1em}
-        \begin{tikzfigure}[]
-            \includegraphics[width=1\linewidth]{plot_comp_time.png}
-        \end{tikzfigure}
+            \captionof{figure}{Imputation time per subset per method}
+            \vspace{-1em}
+            \begin{tikzfigure}[]
+                \includegraphics[width=1\linewidth]{plot_comp_time.png}
+            \end{tikzfigure}
         \end{center}
        
         \vspace{-2em}
 
         \begin{center}
-        \captionof{figure}{Coverage rate by model}
-        \vspace{-0.5em}
-        \begin{tikzfigure}[]
-            \includegraphics[width=1\linewidth]{plot_coverage.png}
-        \end{tikzfigure}
+            \captionof{figure}{Coverage rate by model}
+            \vspace{-0.5em}
+            \begin{tikzfigure}[]
+                \includegraphics[width=1\linewidth]{plot_coverage.png}
+            \end{tikzfigure}
         \end{center}
         
         \vspace{-1em}
@@ -234,7 +240,9 @@
     }
   
     \block{7. Conclusion}{
+    
     \vspace{-2em}
+    
     \begin{itemize}
         \item Speed: \textit{miceRanger} and \textit{missRanger} are significantly faster: about 11 times quicker than \textit{mice}-CART and X times than \textit{mice}-random forest
         \vspace{-0.5em}
@@ -246,6 +254,7 @@
         \vspace{-0.5em}
         \item Practical recommendation: For applications where time and computational resources are of the essence, \textit{miceRanger} is recommended. For research, \textit{mice} is preferred for its robustness and built-in analysis features
     \end{itemize}
+    
     \vspace{-1em}
     }
     
