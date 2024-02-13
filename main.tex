@@ -61,11 +61,16 @@
             \item may be very non-robust and have relatively low predictive accuracy 
         \end{itemize}
         
-        \vspace{-2em}
-        \begin{tikzfigure}[Example of tree structure. Source: Hastie, Tibshirani, \& Friedman (2009)]
-                \includegraphics[scale=1.9]{tree.png}
+        \vspace{-1.5em}
+
+        \begin{center}
+        \captionof{figure}{Example of tree structure. Source: Hastie, Tibshirani, \& Friedman (2009)}
+        \begin{tikzfigure}[]
+            \includegraphics[scale=1.9]{tree.png}
         \end{tikzfigure}
-        \vspace{-1em}
+        \end{center}
+
+        \vspace{-3em}
         
         Random forest:
         \vspace{-0.5em}
@@ -118,24 +123,20 @@
 }
 
     \column{0.36}
-        \block{4. Comparison mice and miceRanger/missRanger packages}{
+        \block{4. Comparison \textit{mice}, \textit{miceRanger} \& \textit{missRanger}}{
         \vspace{-2em}
         \begin{itemize}
-            \item \textit{mice} and \textit{miceRanger} implement van Buuren’s multivariate imputation by chained equations, \textit{missRanger} by default single imputations
+            \item Packages \textit{mice} and \textit{miceRanger} implement van Buuren’s multivariate imputation by chained equations, \textit{missRanger} by default single imputations (based on \textit{missForest})
             \vspace{-0.5em}
             \item \textit{mice} supports variety of imputation methods, \textit{miceRanger} \& \textit{missRanger} only random forest
             \vspace{-0.5em}
-            \item \textit{mice} uses common R packages \textit{rpart} and \textit{randomForest} to implement tree-based imputation methods (van Buuren, 2023)
-            \vspace{-0.5em}
-            \item \textit{miceRanger} \& \textit{missRanger} use the \textit{ranger} package instead, which claims to be faster and more efficient with larger data sets and complex settings (Wilson, 2022)
+            \item All by default use \textit{ranger} package for random forests (van Buuren, 2023; Mayer, 2023; Wilson, 2022), which claims to be faster and more efficient with larger data sets and complex settings than common R packages (Wilson, 2022)
                 \vspace{-0.5em}
                 \begin{itemize}
                     \item[$\Rightarrow$] core functions written in C++ (faster than R, compiled vs. interpreted code) (Wright \& Ziegler, 2017)
                     \vspace{-0.5em}
-                     \item[$\Rightarrow$] based on \textit{mice}/\textit{missForest}
-                     \vspace{-0.5em}
-                     \item[$\Rightarrow$] both lack analytical functions
                 \end{itemize}
+            \item main differences in default values and variety of analytical functions
         \end{itemize}
         \vspace{-1em}
     }
@@ -161,15 +162,22 @@
                 \item MCAR: $P(income\_miss) = p$, $P(educdec\_miss) = p$
             \end{itemize}
             \vspace{-0.5em}
-            Monte Carlo simulation: R = 100, M = 5, n = 1000, niter = 10, nrtree = 10 
+            Monte Carlo simulation: $R$ = 100, $M$ = 5, $n$ = 1000, $niter$ = 10, $nrtree$ = 10
+            \vspace{-0.5em}
+            \begin{itemize}
+                \item six subsets: three focus on data types, three on dataset size
+            \end{itemize}
+            \vspace{-1em}
     }
 
 
         \block{6. Results}{
         
         \vspace{-1em}
-        
-        \centering
+
+        \begin{center}
+        \captionof{table}{Simulation results}
+        \vspace{-0.5em}
         \begin{tabular}{|l|l|lll|}
              \hline   
              Metric &  Method & Bias \hspace{10mm} & MSE \hspace{5mm} & Coverage\\
@@ -193,8 +201,7 @@
              reg. intercept (ghindx) & missRanger  & 3.38 & 21.98 & 0.73\\
              \hline
         \end{tabular}
-        \captionof{table}{Simulation results}
-
+        \end{center}
     }
 
 
@@ -202,18 +209,26 @@
     \column{0.32}   
 
         \block{}{
-
         \vspace{-2.5em}
-        \begin{tikzfigure}[Imputation time per subset per method]
+        
+        \begin{center}
+        \captionof{figure}{Imputation time per subset per method}
+        \vspace{-1em}
+        \begin{tikzfigure}[]
             \includegraphics[width=1\linewidth]{plot_comp_time.png}
         \end{tikzfigure}
-        
-        \vspace{-2.5em}
+        \end{center}
+       
+        \vspace{-2em}
 
-        \begin{tikzfigure}[Coverage rate by model]
+        \begin{center}
+        \captionof{figure}{Coverage rate by model}
+        \vspace{-0.5em}
+        \begin{tikzfigure}[]
             \includegraphics[width=1\linewidth]{plot_coverage.png}
-        \end{tikzfigure} 
-
+        \end{tikzfigure}
+        \end{center}
+        
         \vspace{-1em}
 
     }
@@ -221,16 +236,15 @@
     \block{7. Conclusion}{
     \vspace{-2em}
     \begin{itemize}
-        \item Speed: Ranger methods (\textit{miceRanger} and \textit{missRanger}) are significantly faster: about 11 times quicker than CART and RandomForest.
+        \item Speed: \textit{miceRanger} and \textit{missRanger} are significantly faster: about 11 times quicker than \textit{mice}-CART and X times than \textit{mice}-random forest
         \vspace{-0.5em}
-        \item Accuracy \& efficiency: CART and RandomForest demonstrate superior accuracy and efficiency in imputing missing data.
+        \item Accuracy \& efficiency: \textit{mice} demonstrates superior accuracy and efficiency in imputing missing data
         \vspace{-0.5em}
-        \item Robustness: CART and RandomForest exhibit robust performance against various levels of missing data.
+        \item Robustness: \textit{mice} exhibits robust performance against various levels of missing data, others less so
         \vspace{-0.5em}
-        \item User-friendliness: CART and RandomForest offer pooling functions that streamline the analysis process after multiple imputation. 
-        \textit{miceRanger} and \textit{missRanger} lack this feature, requiring manual calculation for pooled estimates.
+        \item User-friendliness: \textit{mice} offers in depth analytical functions that streamline the analysis process after multiple imputation. \textit{miceRanger} and \textit{missRanger} lack this feature, focusing purely on completing one dataset
         \vspace{-0.5em}
-        \item Practical recommendation:For applications where time and computational resources are of the essence, \textit{Ranger} methods are recommended. For research, CART and RandomForest methods are preferred for their robustness and built-in analysis features.
+        \item Practical recommendation: For applications where time and computational resources are of the essence, \textit{miceRanger} is recommended. For research, \textit{mice} is preferred for its robustness and built-in analysis features
     \end{itemize}
     \vspace{-1em}
     }
