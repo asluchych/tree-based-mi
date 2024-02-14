@@ -83,7 +83,7 @@
             \vspace{-0.5em}
             \item \textit{decorrelates} trees by performing each split on \textit{randomly} chosen subset of predictors
             \vspace{-0.5em}
-            \item accurate model to impute missing values (Stekhoven \& Bühlmann, 2011)
+            \item accurate model to impute missing values (Stekhoven \& Bühlmann, 2012)
             \vspace{-1em}
         \end{itemize} 
     }
@@ -105,15 +105,15 @@
     4-steps algorithm:
     \vspace{-0.5em}
     \begin{enumerate}
-        \item Initial values for the missing values filled in as follows:
+        \item Initial values for missing values filled in as follows:
         \vspace{-0.5em}
         \begin{enumerate}
-            \item Define a matrix $Z$ equal to $Y_c$ (ordered matrix according to missingness)
+            \item Define matrix $Z$ equal to $Y_c$ (ordered matrix according to missingness)
             \vspace{-0.25em}
-            \item Impute missing values in $Y_i$, $i=1, ... p_1$, using tree-based method on $Z$ and append the completed version of $Y_i$ to $Z$ prior to incrementing $i$             
+            \item Impute missing values in $Y_i$, $i=1, ... p_1$, using tree-based method on $Z$ and append completed version of $Y_i$ to $Z$ prior to incrementing $i$             
         \end{enumerate}
     \vspace{-1em}
-    \item  Replace the originally missing values of $Y_i$, $i=1, ... p_1$, with tree-based methods on $Y_{-i}$
+    \item  Replace originally missing values of $Y_i$, $i=1, ... p_1$, with tree-based methods on $Y_{-i}$
     \vspace{-0.5em}
     \item Repeat step 2 $l$  times ($l$  iterations)
     \vspace{-0.5em}          
@@ -229,7 +229,7 @@
 
         \begin{center}
             \captionof{figure}{Coverage rate by model}
-            \vspace{-0.5em}
+            \vspace{-1em}
             \begin{tikzfigure}[]
                 \includegraphics[width=1\linewidth]{plot_coverage.png}
             \end{tikzfigure}
