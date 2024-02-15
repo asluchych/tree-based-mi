@@ -179,8 +179,38 @@
 
 
         \block{6. Results}{
+
+
+        \vspace{-2em}
+
+
+        
+        \begin{center}
+            \captionof{figure}{Imputation time per subset per method}
+            \vspace{-1em}
+            \begin{tikzfigure}[]
+                \includegraphics[width=1\linewidth]{plot_comp_time.png}
+            \end{tikzfigure}
+        \end{center}
+        \vspace{-2em}
+
+        \begin{center}
+            \captionof{figure}{Imputation time vs m and n trees}
+            \vspace{-0.5em}
+            \begin{tikzfigure}[]
+                \includegraphics[width=1\linewidth]{plot_comptime_m_ntree_combined.png}
+            \end{tikzfigure}
+        \end{center}
+        \vspace{-2em}
         
         \vspace{-1em}
+
+        
+    }
+
+    \column{0.32}   
+
+        \block{}{
 
         \begin{center}
             \captionof{table}{Simulation results}
@@ -212,48 +242,7 @@
              \hline
         \end{tabular}
         \end{center}
-    }
 
-    \column{0.32}   
-
-        \block{}{
-        \vspace{-2.5em}
-
-        \begin{center}
-            \captionof{figure}{Imputation time per method for levels of missingness}
-            \vspace{-1em}
-            \begin{tikzfigure}[]
-                \includegraphics[width=1\linewidth]{plot_comp_time_mis.png}
-            \end{tikzfigure}
-        \end{center} 
-        \vspace{-2em}
-        
-        \begin{center}
-            \captionof{figure}{Imputation time per subset per method}
-            \vspace{-0.5em}
-            \begin{tikzfigure}[]
-                \includegraphics[width=1\linewidth]{plot_comp_time.png}
-            \end{tikzfigure}
-        \end{center}
-        \vspace{-2em}
-
-        \begin{center}
-            \captionof{figure}{Imputation time vs m}
-            \vspace{-0.5em}
-            \begin{tikzfigure}[]
-                \includegraphics[width=1\linewidth]{plot_computational_time_vs_m.png}
-            \end{tikzfigure}
-        \end{center}
-        \vspace{-2em}
-
-        % \begin{center}
-        %    \captionof{figure}{Coverage rate by model}
-        %    \vspace{-0.5em}
-        %    \begin{tikzfigure}[]
-        %        \includegraphics[width=1\linewidth]{plot_coverage.png}
-        %    \end{tikzfigure}
-        % \end{center} 
-        % \vspace{-1em}
 
     }
   
@@ -327,3 +316,23 @@
             \item  $Y_c$ remaining completely observed columns
             \item  $Y_{obs}$ set of observed and $Y_{mis}$ set of missing elements 
         \end{itemize}
+
+
+        \begin{center}
+            \captionof{figure}{Imputation time per method for levels of missingness}
+            \vspace{-1em}
+            \begin{tikzfigure}[]
+                \includegraphics[width=1\linewidth]{plot_comp_time_mis.png}
+            \end{tikzfigure}
+        \end{center} 
+        \vspace{-2em}
+
+
+        % \begin{center}
+        %    \captionof{figure}{Coverage rate by model}
+        %    \vspace{-0.5em}
+        %    \begin{tikzfigure}[]
+        %        \includegraphics[width=1\linewidth]{plot_coverage.png}
+        %    \end{tikzfigure}
+        % \end{center} 
+        % \vspace{-1em}
