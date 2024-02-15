@@ -162,8 +162,7 @@
         \end{itemize}
         \vspace{-1.5em}
         \begin{itemize}
-            \item MAR with $\rho=0,\tau=0$: $P(mdvis\_miss \mid xage<25) = p$, \\
-            $P(mdvis\_miss \mid mhi>74) = p$ 
+            \item MAR: $P(mdvis\_miss \mid xage<25) = p$,  $P(mdvis\_miss \mid mhi>74) = p$ 
             \vspace{-0.5em}
             \item MCAR: $P(income\_miss) = p$, $P(educdec\_miss) = p$
         \end{itemize}
@@ -186,27 +185,30 @@
         \begin{center}
             \captionof{table}{Simulation results}
             \vspace{-0.5em}
-            \begin{tabular}{|l|l|lll|}
+            \begin{tabular}{|l|l|rrr|}
              \hline   
              Metric &  Method & Bias \hspace{10mm} & MSE \hspace{5mm} & Coverage\\
              \hline
-             mean(income) & BD & 6.66  & 15,728 & 0.98\\
-             mean(income) & mice-CART & 7.87 & 17,240 & 0.98\\
-             mean(income) & mice-RF & 8.19 & 20,813 & 0.95\\
-             mean(income) & miceRanger & 17.45 & 18,957 & 0.97\\
-             mean(income) & missRanger  & 3.12 & 17,711 & 0.95 \\
+             mean(income) & BD & 1.98  & 15,186 & 0.96\\
+             mean(income) & CC & 7.39  & 26,003 & 0.96\\
+             mean(income) & mice-CART & 12.44 & 23,660 & 0.94\\
+             mean(income) & mice-RF & 8.48 & 23,922 & 0.94\\
+             mean(income) & miceRanger & -1.33 & 22,833 & 0.92\\
+             mean(income) & missRanger  & 20.02 & 23,362 & 0.86 \\
              \hline
-             mean(mdvis|xage>25) & BD & 0.01 & 0.042 & 0.96\\
-             mean(mdvis|xage>25) & mice-CART & 0.01 & 0.042 & 1\\
-             mean(mdvis|xage>25) & mice-RF & 0.01 & 0.042 & 1\\
-             mean(mdvis|xage>25) & miceRanger & 0.01 & 0.042 & 0.96\\
-             mean(mdvis|xage>25) & missRanger  & 0.01 & 0.042 & 0.96\\
+             mean(mdvis|xage>25) & BD & 0.01 & 0.05 & 0.95\\
+             mean(mdvis|xage>25) & CC & 0.01 & 0.05 & 0.95\\
+             mean(mdvis|xage>25) & mice-CART & 0.01 & 0.05 & 1\\
+             mean(mdvis|xage>25) & mice-RF & 0.01 & 0.05 & 1\\
+             mean(mdvis|xage>25) & miceRanger & 0.01 & 0.05 & 0.95\\
+             mean(mdvis|xage>25) & missRanger  & 0.01 & 0.05 & 0.95\\
              \hline
-             reg. intercept (ghindx) & BD & 0.05 & 4.85 & 0.91\\
-             reg. intercept (ghindx) & mice-CART & 0.67 & 6.90 & 0.95\\
-             reg. intercept (ghindx) & mice-RF & 1.34 & 6.17 & 0.96\\
-             reg. intercept (ghindx) & miceRanger & 1.76 & 10.96 & 0.89\\
-             reg. intercept (ghindx) & missRanger  & 3.38 & 21.98 & 0.73\\
+             reg. intercept (ghindx) & BD & 0.10 & 4.03 & 0.95\\
+             reg. intercept (ghindx) & CC & -1.72 & 28.69 & 0.93\\
+             reg. intercept (ghindx) & mice-CART & 0.54 & 6.43 & 0.94\\
+             reg. intercept (ghindx) & mice-RF & 0.78 & 6.03 & 0.95\\
+             reg. intercept (ghindx) & miceRanger & -1.30 & 9.55 & 0.89\\
+             reg. intercept (ghindx) & missRanger  & -3.36 & 23.24 & 0.69\\
              \hline
         \end{tabular}
         \end{center}
@@ -216,26 +218,42 @@
 
         \block{}{
         \vspace{-2.5em}
+
+        \begin{center}
+            \captionof{figure}{Imputation time per method for levels of missingness}
+            \vspace{-1em}
+            \begin{tikzfigure}[]
+                \includegraphics[width=1\linewidth]{plot_comp_time_mis.png}
+            \end{tikzfigure}
+        \end{center} 
+        \vspace{-2em}
         
         \begin{center}
             \captionof{figure}{Imputation time per subset per method}
-            \vspace{-1em}
+            \vspace{-0.5em}
             \begin{tikzfigure}[]
                 \includegraphics[width=1\linewidth]{plot_comp_time.png}
             \end{tikzfigure}
         \end{center}
-       
         \vspace{-2em}
 
         \begin{center}
-            \captionof{figure}{Coverage rate by model}
-            \vspace{-1em}
+            \captionof{figure}{Imputation time vs m}
+            \vspace{-0.5em}
             \begin{tikzfigure}[]
-                \includegraphics[width=1\linewidth]{plot_coverage.png}
+                \includegraphics[width=1\linewidth]{plot_computational_time_vs_m.png}
             \end{tikzfigure}
         \end{center}
-        
-        \vspace{-1em}
+        \vspace{-2em}
+
+        % \begin{center}
+        %    \captionof{figure}{Coverage rate by model}
+        %    \vspace{-0.5em}
+        %    \begin{tikzfigure}[]
+        %        \includegraphics[width=1\linewidth]{plot_coverage.png}
+        %    \end{tikzfigure}
+        % \end{center} 
+        % \vspace{-1em}
 
     }
   
@@ -244,17 +262,15 @@
     \vspace{-2em}
     
     \begin{itemize}
-        \item Speed: \textit{miceRanger} and \textit{missRanger} are  about X times quicker than \textit{mice}-CART and X times than \textit{mice}-RF
+        \item Speed \& robustness: \textit{miceRanger} \& \textit{missRanger} are $\sim$11x faster than \textit{mice} using standard R implementations and $\sim$6x faster than \textit{mice} using \textit{ranger}.
         \vspace{-0.5em}
-        \item Accuracy \& efficiency: \textit{mice} shows lower MSE and bias for income (MCAR) and uniform accuracy for $mean(mdvis|xage>25)$ (MAR), maintaining solid coverage.
+        \item Scalability: \textit{missRanger} scales best with increased number of observations, imputations and trees, \textit{miceRanger} performing similarly
         \vspace{-0.5em}
-        \item Robustness: \textit{miceRanger} and \textit{missRanger} are quicker, yet mice methods maintain consistent imputation times across different missingness levels.
+        \item  Efficiency: Despite faster speed of \textit{miceRanger} and \textit{missRanger}, \textit{mice} demonstrates superior imputation accuracy
         \vspace{-0.5em}
-        \item User-friendliness: \textit{mice} simplifies post-imputation analysis with built-in pooling functions, while \textit{miceRanger} necessitates additional manual steps for regression analysis
+        \item User-friendliness: \textit{mice} facilitates post-imputation analysis; \textit{miceRanger} demands manual data handling
         \vspace{-0.5em}
-        \item Scalability with m: \textit{missRanger} shows significant scalability, with imputation times remaining stable as the number of imputations (m) increases, demonstrating high efficiency for large-scale imputation tasks.
-        \vspace{-0.5em}
-        \item Practical Recommendation: For applications prioritizing speed and computational efficiency, miceRanger is advisable for its faster imputation times across varying levels of missing data and model complexities. For research, mice is preferable for its robustness across different missingness patterns and built-in analysis features.
+        \item Practical recommendation: Choose \textit{miceRanger} for speed, \textit{mice} for in-depth research analysis
     \end{itemize}
     
     \vspace{-1em}
